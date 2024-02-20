@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+//#include "qcustomplot.h"
+#include <QVector>
+#include "plot.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +20,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
+Plot *plotAI1;
+Plot *plotAI2;
+Plot *plotUI1;
+
+
+    QVector<double> x,y;
 };
 #endif // MAINWINDOW_H
