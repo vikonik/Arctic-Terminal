@@ -1,4 +1,4 @@
-QT       += core gui printsupport
+QT       += core gui printsupport serialport widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
@@ -19,16 +19,21 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     plot.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    serial.cpp \
+    settingsdialog.cpp
 
 HEADERS += \
     mainwindow.h \
     plot.h \
-    qcustomplot.h
+    qcustomplot.h \
+    serial.h \
+    settingsdialog.h
 
 FORMS += \
     mainwindow.ui \
-    plot.ui
+    plot.ui \
+    settingsdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
