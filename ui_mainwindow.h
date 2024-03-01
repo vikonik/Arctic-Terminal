@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.5
+** Created by: Qt User Interface Compiler version 5.14.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -18,6 +18,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -33,11 +34,15 @@ public:
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout_2;
     QVBoxLayout *verticalLayout_4;
-    QPushButton *pushButton;
     QVBoxLayout *verticalLayout_3;
     QVBoxLayout *layoutPlotAI1;
     QVBoxLayout *layoutPlotAI2;
     QVBoxLayout *layoutPlotUI1;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *pushButton_saveAll;
+    QPushButton *pushButton_loadAll;
+    QPushButton *pushButton_clearAll;
     QVBoxLayout *verticalLayout;
     QPlainTextEdit *log;
     QMenuBar *menubar;
@@ -61,11 +66,6 @@ public:
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-
-        verticalLayout_4->addWidget(pushButton);
-
 
         horizontalLayout_2->addLayout(verticalLayout_4);
 
@@ -86,6 +86,33 @@ public:
 
         verticalLayout_3->addLayout(layoutPlotUI1);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        pushButton_saveAll = new QPushButton(centralwidget);
+        pushButton_saveAll->setObjectName(QString::fromUtf8("pushButton_saveAll"));
+
+        horizontalLayout->addWidget(pushButton_saveAll);
+
+        pushButton_loadAll = new QPushButton(centralwidget);
+        pushButton_loadAll->setObjectName(QString::fromUtf8("pushButton_loadAll"));
+
+        horizontalLayout->addWidget(pushButton_loadAll);
+
+        pushButton_clearAll = new QPushButton(centralwidget);
+        pushButton_clearAll->setObjectName(QString::fromUtf8("pushButton_clearAll"));
+
+        horizontalLayout->addWidget(pushButton_clearAll);
+
+
+        verticalLayout_3->addLayout(horizontalLayout);
+
+        verticalLayout_3->setStretch(0, 1);
+        verticalLayout_3->setStretch(1, 1);
+        verticalLayout_3->setStretch(2, 1);
 
         horizontalLayout_2->addLayout(verticalLayout_3);
 
@@ -125,15 +152,17 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        actionConfigure->setText(QApplication::translate("MainWindow", "\320\235\320\260\321\201\321\202\321\200\320\276\320\271\320\272\320\260", nullptr));
-#ifndef QT_NO_TOOLTIP
-        actionConfigure->setToolTip(QApplication::translate("MainWindow", "COM-port setting", nullptr));
-#endif // QT_NO_TOOLTIP
-        actionConnect->setText(QApplication::translate("MainWindow", "\320\237\320\276\320\264\320\272\320\273\321\216\321\207\320\270\321\202\321\214", nullptr));
-        actionDisconnect->setText(QApplication::translate("MainWindow", "\320\236\321\202\320\272\320\273\321\216\321\207\320\270\321\202\321\214", nullptr));
-        pushButton->setText(QApplication::translate("MainWindow", "PushButton", nullptr));
-        menu->setTitle(QApplication::translate("MainWindow", "\320\235\320\260\321\201\321\202\321\200\320\276\320\271\320\272\320\260", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        actionConfigure->setText(QCoreApplication::translate("MainWindow", "\320\235\320\260\321\201\321\202\321\200\320\276\320\271\320\272\320\260", nullptr));
+#if QT_CONFIG(tooltip)
+        actionConfigure->setToolTip(QCoreApplication::translate("MainWindow", "COM-port setting", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionConnect->setText(QCoreApplication::translate("MainWindow", "\320\237\320\276\320\264\320\272\320\273\321\216\321\207\320\270\321\202\321\214", nullptr));
+        actionDisconnect->setText(QCoreApplication::translate("MainWindow", "\320\236\321\202\320\272\320\273\321\216\321\207\320\270\321\202\321\214", nullptr));
+        pushButton_saveAll->setText(QCoreApplication::translate("MainWindow", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214", nullptr));
+        pushButton_loadAll->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214", nullptr));
+        pushButton_clearAll->setText(QCoreApplication::translate("MainWindow", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214 \320\262\321\201\321\221", nullptr));
+        menu->setTitle(QCoreApplication::translate("MainWindow", "\320\235\320\260\321\201\321\202\321\200\320\276\320\271\320\272\320\260", nullptr));
     } // retranslateUi
 
 };

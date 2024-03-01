@@ -8,7 +8,7 @@
 #include "serial.h"
 #include <QLabel>
 #include <QStatusBar>
-
+#include <QFileDialog>
 //#include "settingsdialog.h"
 
 QT_BEGIN_NAMESPACE
@@ -29,13 +29,21 @@ public:
     void initActionsConnections();
     void showStatusMessage(const QString &message);
 
+    void printGraph(QList<QString> lst);
+    void printStatus(QList<QString> lst);
+
+    void writeTmpFile(QList<QString> lst);
+    void openTmpFile();
 public slots:
     void checkConnection();
-
-
     void checkDisconnection();
+    void parseTemp(QByteArray data);
+
+    void clearAllGrapf();
 private slots:
-    void on_pushButton_clicked();
+
+
+    void on_pushButton_loadAll_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -47,7 +55,20 @@ Plot *plotAI1;
 Plot *plotAI2;
 Plot *plotUI1;
 
+QString *pathFile;
+QFile *file;
+
+QString *pathFileTmp;
+QFile *fileTmp;
 
     QVector<double> x,y;
+    enum{
+        KEY_DATA,
+        WORK_TEMPERATURE,
+        AI1,
+        AI2,
+        UI1,
+        SPI
+    }Temperature_e;
 };
 #endif // MAINWINDOW_H

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'settingsdialog.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.5
+** Created by: Qt User Interface Compiler version 5.14.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -197,23 +197,23 @@ public:
 
     void retranslateUi(QDialog *SettingsDialog)
     {
-        SettingsDialog->setWindowTitle(QApplication::translate("SettingsDialog", "Settings", nullptr));
-        parametersBox->setTitle(QApplication::translate("SettingsDialog", "Select Parameters", nullptr));
-        baudRateLabel->setText(QApplication::translate("SettingsDialog", "BaudRate:", nullptr));
-        dataBitsLabel->setText(QApplication::translate("SettingsDialog", "Data bits:", nullptr));
-        parityLabel->setText(QApplication::translate("SettingsDialog", "Parity:", nullptr));
-        stopBitsLabel->setText(QApplication::translate("SettingsDialog", "Stop bits:", nullptr));
-        flowControlLabel->setText(QApplication::translate("SettingsDialog", "Flow control:", nullptr));
-        selectBox->setTitle(QApplication::translate("SettingsDialog", "Select Serial Port", nullptr));
-        descriptionLabel->setText(QApplication::translate("SettingsDialog", "Description:", nullptr));
-        manufacturerLabel->setText(QApplication::translate("SettingsDialog", "Manufacturer:", nullptr));
-        serialNumberLabel->setText(QApplication::translate("SettingsDialog", "Serial number:", nullptr));
-        locationLabel->setText(QApplication::translate("SettingsDialog", "Location:", nullptr));
-        vidLabel->setText(QApplication::translate("SettingsDialog", "Vendor ID:", nullptr));
-        pidLabel->setText(QApplication::translate("SettingsDialog", "Product ID:", nullptr));
-        applyButton->setText(QApplication::translate("SettingsDialog", "Apply", nullptr));
-        additionalOptionsGroupBox->setTitle(QApplication::translate("SettingsDialog", "Additional options", nullptr));
-        localEchoCheckBox->setText(QApplication::translate("SettingsDialog", "Local echo", nullptr));
+        SettingsDialog->setWindowTitle(QCoreApplication::translate("SettingsDialog", "Settings", nullptr));
+        parametersBox->setTitle(QCoreApplication::translate("SettingsDialog", "Select Parameters", nullptr));
+        baudRateLabel->setText(QCoreApplication::translate("SettingsDialog", "BaudRate:", nullptr));
+        dataBitsLabel->setText(QCoreApplication::translate("SettingsDialog", "Data bits:", nullptr));
+        parityLabel->setText(QCoreApplication::translate("SettingsDialog", "Parity:", nullptr));
+        stopBitsLabel->setText(QCoreApplication::translate("SettingsDialog", "Stop bits:", nullptr));
+        flowControlLabel->setText(QCoreApplication::translate("SettingsDialog", "Flow control:", nullptr));
+        selectBox->setTitle(QCoreApplication::translate("SettingsDialog", "Select Serial Port", nullptr));
+        descriptionLabel->setText(QCoreApplication::translate("SettingsDialog", "Description:", nullptr));
+        manufacturerLabel->setText(QCoreApplication::translate("SettingsDialog", "Manufacturer:", nullptr));
+        serialNumberLabel->setText(QCoreApplication::translate("SettingsDialog", "Serial number:", nullptr));
+        locationLabel->setText(QCoreApplication::translate("SettingsDialog", "Location:", nullptr));
+        vidLabel->setText(QCoreApplication::translate("SettingsDialog", "Vendor ID:", nullptr));
+        pidLabel->setText(QCoreApplication::translate("SettingsDialog", "Product ID:", nullptr));
+        applyButton->setText(QCoreApplication::translate("SettingsDialog", "Apply", nullptr));
+        additionalOptionsGroupBox->setTitle(QCoreApplication::translate("SettingsDialog", "Additional options", nullptr));
+        localEchoCheckBox->setText(QCoreApplication::translate("SettingsDialog", "Local echo", nullptr));
     } // retranslateUi
 
 };

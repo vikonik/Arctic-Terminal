@@ -55,6 +55,7 @@
 #include <QIntValidator>
 #include <QLineEdit>
 #include <QSerialPortInfo>
+#include <QDebug>
 
 static const char blankString[] = QT_TRANSLATE_NOOP("SettingsDialog", "N/A");
 
@@ -96,8 +97,9 @@ void SettingsDialog::showPortInfo(int idx)
 {
     if (idx == -1)
         return;
-
+//fillPortsInfo();
     const QStringList list = m_ui->serialPortInfoListBox->itemData(idx).toStringList();
+    qDebug() << list;
     m_ui->descriptionLabel->setText(tr("Description: %1").arg(list.count() > 1 ? list.at(1) : tr(blankString)));
     m_ui->manufacturerLabel->setText(tr("Manufacturer: %1").arg(list.count() > 2 ? list.at(2) : tr(blankString)));
     m_ui->serialNumberLabel->setText(tr("Serial number: %1").arg(list.count() > 3 ? list.at(3) : tr(blankString)));
@@ -138,6 +140,7 @@ void SettingsDialog::fillPortsParameters()
     m_ui->baudRateBox->addItem(QStringLiteral("38400"), QSerialPort::Baud38400);
     m_ui->baudRateBox->addItem(QStringLiteral("115200"), QSerialPort::Baud115200);
     m_ui->baudRateBox->addItem(tr("Custom"));
+    m_ui->baudRateBox->setCurrentIndex(3);//По умолчанию
 
     m_ui->dataBitsBox->addItem(QStringLiteral("5"), QSerialPort::Data5);
     m_ui->dataBitsBox->addItem(QStringLiteral("6"), QSerialPort::Data6);
@@ -169,6 +172,7 @@ void SettingsDialog::fillPortsInfo()
     QString manufacturer;
     QString serialNumber;
     const auto infos = QSerialPortInfo::availablePorts();
+
     for (const QSerialPortInfo &info : infos) {
         QStringList list;
         description = info.description();
@@ -182,7 +186,15 @@ void SettingsDialog::fillPortsInfo()
              << (info.vendorIdentifier() ? QString::number(info.vendorIdentifier(), 16) : blankString)
              << (info.productIdentifier() ? QString::number(info.productIdentifier(), 16) : blankString);
 
-        m_ui->serialPortInfoListBox->addItem(list.first(), list);
+//        m_ui->serialPortInfoListBox->addItem(list.first(), list);
+        //m_ui->serialPortInfoListBox->addItem(list.at(info), list);
+if(!info.isBusy()){
+    m_ui->serialPortInfoListBox->addItem(list.first(), list);
+  qDebug() << tr("Port %1 is Free").arg(info.portName());
+}
+            //if(!infos.at(info).isBusy()) portCombobox->addItem(serialPortInfoList.at(i).portName());
+
+
     }
 
     m_ui->serialPortInfoListBox->addItem(tr("Custom"));
