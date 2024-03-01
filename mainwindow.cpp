@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+"Hello"
     serial = new Serial;
     m_status = new QLabel(this);
     statusBar()->addWidget(m_status);
