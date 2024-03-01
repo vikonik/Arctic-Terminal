@@ -3,6 +3,7 @@
 #include <QMouseEvent>
 #include <QContextMenuEvent>
 #include <QMenu>
+#include <QAction>
 
 /**/
 Plot::Plot(QWidget *parent) :
@@ -26,12 +27,46 @@ Plot::Plot(QString *plotName, double _xBegin, double _xEnd,  double _yBegin, dou
     xEnd = _xEnd;
     ui->widget->xAxis->setRange(xBegin, xEnd);
     ui->widget->yAxis->setRange(_yBegin, _yEnd);
-connect(ui->pushButton_clear,SIGNAL(clicked()), this, SLOT(clearGrapf()));
-connect(ui->widget,SIGNAL(mousePress(QMouseEvent*)),this,SLOT(mouseTest(QMouseEvent*)));
-//connect(ui->widget,SIGNAL(mousePressEvent(QMouseEvent*)),this,SLOT(mouseTest(QMouseEvent*)));
+
+
+
+connect(ui->widget,SIGNAL(mousePress(QMouseEvent*)),this, SLOT(mousePressEvent(QMouseEvent*)));
  qDebug() << "Construtor of ContextMenu class";
 initButtons();
+
+//Контекстное меню
+menu = new QMenu(this);
+QAction *menuClearGrapf = new QAction(tr("Очистить"));
+menu->addAction(menuClearGrapf);
+connect(menuClearGrapf, &QAction::triggered, this, &Plot::clearGrapf);
 }
+
+void Plot::mousePressEvent (QMouseEvent *event){
+    switch (event->button()) {
+        case Qt::LeftButton:
+        {
+            qDebug() << "Left Mouse button pressed";
+            break;
+        }
+        case Qt::RightButton:
+        {
+            qDebug() << "Left Mouse button pressed";
+            slotCustomMenuRequested();
+            break;
+        }
+        case Qt::MiddleButton:
+        {
+            qDebug() << "Middle Mouse button pressed";
+            break;
+        }
+        default:
+        {
+            qDebug() << "Other button pressed, id = "+QString::number(event->button());
+            break;
+        }
+    }
+}
+
 
 /**/
 void Plot::mouseTest(QMouseEvent* event){
@@ -97,12 +132,10 @@ void Plot::on_pushButton_clear_clicked()
 {
 
 }
+
 /**/
 void Plot::clearGrapf(){
     qDebug() << "clearGrapf";
-    //ui->widget->clearGraphs();
-    //ui->widget->clearItems();
-    //ui->widget->clearPlottables();
     ui->widget->graph(0)->data().data()->clear();
     ui->widget->graph(1)->data().data()->clear();
     this->xPos = 0;//Устанавливаем в начало
@@ -113,7 +146,15 @@ void Plot::clearGrapf(){
 
 /**/
 void Plot::initButtons(){
-    ui->pushButton_loadData->setEnabled(false);
-    ui->pushButton_saveData->setEnabled(false);
+//    ui->pushButton_loadData->setEnabled(false);
+//    ui->pushButton_saveData->setEnabled(false);
 
+}
+
+/**
+Запускаем контекстное меню
+*/
+void Plot::slotCustomMenuRequested()
+{
+    menu->exec(QCursor::pos());
 }

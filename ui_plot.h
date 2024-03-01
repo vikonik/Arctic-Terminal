@@ -11,10 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "qcustomplot.h"
@@ -26,14 +23,8 @@ class Ui_Plot
 public:
     QVBoxLayout *verticalLayout;
     QLabel *labelPlotName;
-    QHBoxLayout *horizontalLayout_2;
+    QVBoxLayout *verticalLayout_3;
     QCustomPlot *widget;
-    QWidget *widget_3;
-    QVBoxLayout *verticalLayout_2;
-    QSpacerItem *verticalSpacer;
-    QPushButton *pushButton_clear;
-    QPushButton *pushButton_loadData;
-    QPushButton *pushButton_saveData;
 
     void setupUi(QWidget *Plot)
     {
@@ -48,42 +39,16 @@ public:
 
         verticalLayout->addWidget(labelPlotName);
 
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         widget = new QCustomPlot(Plot);
         widget->setObjectName(QString::fromUtf8("widget"));
 
-        horizontalLayout_2->addWidget(widget);
+        verticalLayout_3->addWidget(widget);
 
-        widget_3 = new QWidget(Plot);
-        widget_3->setObjectName(QString::fromUtf8("widget_3"));
-        verticalLayout_2 = new QVBoxLayout(widget_3);
-        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalLayout_3->setStretch(0, 1);
 
-        verticalLayout_2->addItem(verticalSpacer);
-
-        pushButton_clear = new QPushButton(widget_3);
-        pushButton_clear->setObjectName(QString::fromUtf8("pushButton_clear"));
-
-        verticalLayout_2->addWidget(pushButton_clear);
-
-        pushButton_loadData = new QPushButton(widget_3);
-        pushButton_loadData->setObjectName(QString::fromUtf8("pushButton_loadData"));
-
-        verticalLayout_2->addWidget(pushButton_loadData);
-
-        pushButton_saveData = new QPushButton(widget_3);
-        pushButton_saveData->setObjectName(QString::fromUtf8("pushButton_saveData"));
-
-        verticalLayout_2->addWidget(pushButton_saveData);
-
-
-        horizontalLayout_2->addWidget(widget_3);
-
-        horizontalLayout_2->setStretch(0, 1);
-
-        verticalLayout->addLayout(horizontalLayout_2);
+        verticalLayout->addLayout(verticalLayout_3);
 
         verticalLayout->setStretch(1, 1);
 
@@ -96,9 +61,6 @@ public:
     {
         Plot->setWindowTitle(QCoreApplication::translate("Plot", "Form", nullptr));
         labelPlotName->setText(QCoreApplication::translate("Plot", "TextLabel", nullptr));
-        pushButton_clear->setText(QCoreApplication::translate("Plot", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214", nullptr));
-        pushButton_loadData->setText(QCoreApplication::translate("Plot", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214", nullptr));
-        pushButton_saveData->setText(QCoreApplication::translate("Plot", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214", nullptr));
     } // retranslateUi
 
 };

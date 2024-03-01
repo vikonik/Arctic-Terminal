@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-"Hello"
     serial = new Serial;
     m_status = new QLabel(this);
     statusBar()->addWidget(m_status);
@@ -34,9 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     initActionsConnections();//весь connect вынесем в отдельный метод
 
-
-
-//Настроим графики для отображения
+    //Настроим графики для отображения
     QString name = "AI1";
     plotAI1 = new Plot(&name,1,50,-5,80);
     plotAI1->plotTestInit();
@@ -54,11 +51,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 //Печатаем новую точку на графике
-    for(int i = 0; i < 80; i++){
-        plotAI1->printTestGraph(i);
-        plotAI2->printTestGraph(i*2);
-        plotUI1->printTestGraph(i/2);
-    }
+//    for(int i = 0; i < 80; i++){
+//        plotAI1->printTestGraph(i);
+//        plotAI2->printTestGraph(i*2);
+//        plotUI1->printTestGraph(i/2);
+//    }
 
 
     pathFile = new QString;
@@ -70,14 +67,16 @@ MainWindow::MainWindow(QWidget *parent)
     showStatusMessage("Load");
 
 
-QString str = "Temp 20.00 21.01 22.02 23.03";
-QList<QString> lst = str.split(' ');
-qDebug() << lst;
-qDebug() << lst.at(0);
-qDebug() << lst.at(1);
-qDebug() << lst.at(2);
-qDebug() << lst.at(3);
-qDebug() << lst.at(4);
+//QString str = "Temp 20.00 21.01 22.02 23.03";
+//QList<QString> lst = str.split(' ');
+//qDebug() << lst;
+//qDebug() << lst.at(0);
+//qDebug() << lst.at(1);
+//qDebug() << lst.at(2);
+//qDebug() << lst.at(3);
+//qDebug() << lst.at(4);
+    QString str = tr("Готов.");
+    writeToLog(&str);
 }
 
 MainWindow::~MainWindow()
@@ -291,5 +290,13 @@ void MainWindow::on_pushButton_loadAll_clicked()
     qDebug() << tr("Прочитано %1 строк").arg(numOfStr);
     file->close();
 
+
+}
+
+/**
+
+*/
+void MainWindow::writeToLog(QString *str){
+    ui->log->appendPlainText(*str);
 
 }

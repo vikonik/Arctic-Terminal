@@ -34,6 +34,7 @@ public:
 
     void writeTmpFile(QList<QString> lst);
     void openTmpFile();
+    void writeToLog(QString *str);
 public slots:
     void checkConnection();
     void checkDisconnection();

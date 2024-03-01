@@ -127,7 +127,7 @@ public:
         horizontalLayout_2->addLayout(verticalLayout);
 
         horizontalLayout_2->setStretch(0, 1);
-        horizontalLayout_2->setStretch(1, 4);
+        horizontalLayout_2->setStretch(1, 5);
         horizontalLayout_2->setStretch(2, 1);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
