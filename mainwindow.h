@@ -46,6 +46,8 @@ private slots:
 
     void on_pushButton_loadAll_clicked();
 
+    void on_pushButton_saveAll_clicked();
+
 private:
     Ui::MainWindow *ui;
 SettingsDialog *m_settings;
@@ -58,6 +60,8 @@ Plot *plotUI1;
 
 QString *pathFile;
 QFile *file;
+QString *pathFileToSave;
+QFile *fileToSave;
 
 QString *pathFileTmp;
 QFile *fileTmp;

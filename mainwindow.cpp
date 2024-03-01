@@ -16,6 +16,7 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QDir>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -50,31 +51,33 @@ MainWindow::MainWindow(QWidget *parent)
     ui->layoutPlotAI1->addWidget(plotUI1);
 
 
-//Печатаем новую точку на графике
-//    for(int i = 0; i < 80; i++){
-//        plotAI1->printTestGraph(i);
-//        plotAI2->printTestGraph(i*2);
-//        plotUI1->printTestGraph(i/2);
-//    }
+    //Печатаем новую точку на графике
+    //    for(int i = 0; i < 80; i++){
+    //        plotAI1->printTestGraph(i);
+    //        plotAI2->printTestGraph(i*2);
+    //        plotUI1->printTestGraph(i/2);
+    //    }
 
 
-    pathFile = new QString;
+    pathFile = new QString;//Для открытия файла
     file = new QFile;
-    pathFileTmp = new QString;
+    pathFileTmp = new QString;//Для временного файля
     fileTmp = new QFile;
+    pathFileToSave = new QString;//для сохранения файла
+    fileToSave = new QFile;
     openTmpFile();//Временный файл
-/**/
+    /**/
     showStatusMessage("Load");
 
 
-//QString str = "Temp 20.00 21.01 22.02 23.03";
-//QList<QString> lst = str.split(' ');
-//qDebug() << lst;
-//qDebug() << lst.at(0);
-//qDebug() << lst.at(1);
-//qDebug() << lst.at(2);
-//qDebug() << lst.at(3);
-//qDebug() << lst.at(4);
+    //QString str = "Temp 20.00 21.01 22.02 23.03";
+    //QList<QString> lst = str.split(' ');
+    //qDebug() << lst;
+    //qDebug() << lst.at(0);
+    //qDebug() << lst.at(1);
+    //qDebug() << lst.at(2);
+    //qDebug() << lst.at(3);
+    //qDebug() << lst.at(4);
     QString str = tr("Готов.");
     writeToLog(&str);
 }
@@ -90,12 +93,12 @@ void MainWindow::checkConnection(){
 
     const SettingsDialog::Settings p = serial->m_settings->settings();
     if (serial->port->isOpen()) {
-                ui->actionConnect->setEnabled(false);
-                ui->actionDisconnect->setEnabled(true);
-                ui->actionConfigure->setEnabled(false);
-                showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
-                                  .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
-                                  .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
+        ui->actionConnect->setEnabled(false);
+        ui->actionDisconnect->setEnabled(true);
+        ui->actionConfigure->setEnabled(false);
+        showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
+                          .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
+                          .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
     } else {
         QMessageBox::critical(this, tr("Error"), serial->port->errorString());
 
@@ -133,10 +136,10 @@ void MainWindow::initActionsConnections()
     connect(serial,SIGNAL(signalRcvData(QByteArray)), this, SLOT(parseTemp(QByteArray)));
 
     //Кнопка Очистить всё
-        connect(ui->pushButton_clearAll, SIGNAL(clicked()), this, SLOT(clearAllGrapf()));
-//    connect(ui->pushButton_loadAll,SIGNAL(clicked()), plotAI1, SLOT(clearGrapf()));
- //   connect(ui->pushButton_clearAll,SIGNAL(clicked()), plotAI2, SLOT(clearGrapf()));
-//    connect(ui->pushButton_clearAll,SIGNAL(clicked()), plotUI1, SLOT(clearGrapf()));
+    connect(ui->pushButton_clearAll, SIGNAL(clicked()), this, SLOT(clearAllGrapf()));
+    //    connect(ui->pushButton_loadAll,SIGNAL(clicked()), plotAI1, SLOT(clearGrapf()));
+    //   connect(ui->pushButton_clearAll,SIGNAL(clicked()), plotAI2, SLOT(clearGrapf()));
+    //    connect(ui->pushButton_clearAll,SIGNAL(clicked()), plotUI1, SLOT(clearGrapf()));
 }
 
 
@@ -184,10 +187,8 @@ void MainWindow::parseTemp(QByteArray data){
 Открываем временный файл для записи
 */
 void MainWindow::openTmpFile(){
-     //pathFile - это строка
+    //pathFile - это строка
     //file - это QFile
-    //QString filter = tr("Temperature grapf (*.grapf):;;All file (*.*)");
-    //   QString filter = tr("Temperature grapf (*.grapf)");
     pathFileTmp->clear();
     int n = 0;
     do{
@@ -213,10 +214,10 @@ void MainWindow::writeTmpFile(QList<QString> lst){
     QByteArray str;
     str.clear();
     str.append(tr("Temp %1 %2 %3 %4\r\n")
-            .arg(lst.at(WORK_TEMPERATURE))
-            .arg(lst.at(AI1))
-            .arg(lst.at(AI2))
-            .arg(lst.at(UI1)));
+               .arg(lst.at(WORK_TEMPERATURE))
+               .arg(lst.at(AI1))
+               .arg(lst.at(AI2))
+               .arg(lst.at(UI1)));
 
     fileTmp->write(str);
 
@@ -267,24 +268,22 @@ void MainWindow::on_pushButton_loadAll_clicked()
     if(file->isOpen())
         qDebug() << tr("ERROR: File already open");
 
-
     if(!file->open(QIODevice::ReadWrite)){
         qDebug() << tr("ERROR: File %1 not open").arg(file->fileName());
         return;
     }
-
 
     quint64 numOfStr = 0;
     QTextStream in(file);
     QByteArray qbArray;
     while (!in.atEnd())
     {
-       //QString line =
+        //QString line =
         //line = in.readLine();
-       numOfStr++;
-       qbArray.append(in.readLine());
-       parseTemp(qbArray);
-       qbArray.clear();
+        numOfStr++;
+        qbArray.append(in.readLine());
+        parseTemp(qbArray);
+        qbArray.clear();
     }
 
     qDebug() << tr("Прочитано %1 строк").arg(numOfStr);
@@ -299,4 +298,39 @@ void MainWindow::on_pushButton_loadAll_clicked()
 void MainWindow::writeToLog(QString *str){
     ui->log->appendPlainText(*str);
 
+}
+
+/**
+Сохраняем текущий сеанс
+*/
+void MainWindow::on_pushButton_saveAll_clicked()
+{
+    QString str ="";
+    QString filter = tr("Temperature grapf (*.grapf):;;All file (*.*)");
+    pathFileToSave->clear();
+    pathFileToSave->append(QFileDialog::getSaveFileName(this, "Open a file", "", filter));
+
+    fileToSave->setFileName(*pathFileToSave);
+    fileTmp->close();//Чтобы сбросить счетчик строк закрываем файл и открваем его для чтения. Грабли конечно, но как-то так
+    if(fileToSave->open(QIODevice::ReadWrite) && fileTmp->open(QIODevice::ReadOnly)){//fileTmp->open(QIODevice::ReadWrite)
+        quint64 numOfStr = 0;
+        QTextStream in(fileTmp);
+        QByteArray qbArray;
+        while (!in.atEnd())
+        {
+            numOfStr++;
+            qbArray.append(in.readLine());
+            qbArray.append("\r\n");
+            fileToSave->write(qbArray);
+            qbArray.clear();
+        }
+
+        qDebug() << tr("Записано %1 строк").arg(numOfStr);
+        str.clear();
+        str = tr("Записано %1 строк").arg(numOfStr);
+        this->writeToLog(&str);
+    }
+    fileToSave->close();
+    fileTmp->close();//Закрываем временный файл
+    fileTmp->open(QIODevice::Append);//и открываем его для добавления записей в коней файла, продолжаем работу
 }
