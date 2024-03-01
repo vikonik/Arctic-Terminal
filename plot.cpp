@@ -4,7 +4,9 @@
 #include <QContextMenuEvent>
 #include <QMenu>
 #include <QAction>
-
+#include <QFile>
+#include <QFileDialog>
+#include <QDir>
 /**/
 Plot::Plot(QWidget *parent) :
     QWidget(parent),
@@ -37,8 +39,12 @@ initButtons();
 //Контекстное меню
 menu = new QMenu(this);
 QAction *menuClearGrapf = new QAction(tr("Очистить"));
+QAction *menuSeveGrapfToJpg = new QAction(tr("Сохранить как картинку"));
 menu->addAction(menuClearGrapf);
+menu->addAction(menuSeveGrapfToJpg);
+//menuSeveGrapfToJpg->setEnabled(false);
 connect(menuClearGrapf, &QAction::triggered, this, &Plot::clearGrapf);
+connect(menuSeveGrapfToJpg, &QAction::triggered, this, &Plot::saveToJpg);
 }
 
 void Plot::mousePressEvent (QMouseEvent *event){
@@ -157,4 +163,25 @@ void Plot::initButtons(){
 void Plot::slotCustomMenuRequested()
 {
     menu->exec(QCursor::pos());
+}
+
+/**
+Сохраняем картинку как jpg
+*/
+void Plot::saveToJpg(){
+     qDebug() << "saveToJpg";
+
+     QString pathFileToSave ="";
+     QString filter = tr("Temperature jpg (*.jpg):;;All file (*.*)");
+     pathFileToSave.clear();
+     pathFileToSave.append(QFileDialog::getSaveFileName(this, "Save a file", "", filter));
+     QFile file(pathFileToSave);
+
+     if (!file.open(QIODevice::WriteOnly))
+     {
+         qDebug() << file.errorString();
+     } else {
+         ui->widget->saveJpg(pathFileToSave);
+     }
+
 }

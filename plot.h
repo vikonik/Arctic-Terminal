@@ -34,6 +34,7 @@ public slots:
     void mousePressEvent(QMouseEvent *event);
     void slotCustomMenuRequested();
 
+    void saveToJpg();
 private slots:
     void on_pushButton_clear_clicked();
 
