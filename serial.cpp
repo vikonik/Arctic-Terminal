@@ -110,9 +110,11 @@ void Serial::readData()
 /**/
 void Serial::checkRCVData(){
     qDebug()<<"checkRCVData";
+    port->waitForReadyRead(10);
     qint64 a = port->bytesAvailable();
     if (a == 0)//Обработка ложного срабатывания
         return;
+
     qDebug()<< tr("recive %1 byte").arg(a);
     QByteArray data = port->readAll();
     qDebug()<< tr("Recive bytes %1").arg(data.data());

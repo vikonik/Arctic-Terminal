@@ -35,13 +35,15 @@ public slots:
     void slotCustomMenuRequested();
 
     void saveToJpg();
+    void zoomPlus();
+    void zoomMinus();
 private slots:
     void on_pushButton_clear_clicked();
 
 private:
     Ui::Plot *ui;
 
-    double xBegin, xEnd,h, X;
+    double xBegin, xEnd, yBegin,  yEnd, h, X,maxY, minY ;
     double xEndDefault = 50;//Размер при сбросе
     int xPos;
 

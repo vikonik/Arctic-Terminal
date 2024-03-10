@@ -23,10 +23,15 @@ Plot::Plot(QString *plotName, double _xBegin, double _xEnd,  double _yBegin, dou
 {
 
     xPos = 0;
+    maxY = 0.0;
+    minY = 80.0;
+
     ui->setupUi(this);
     ui->labelPlotName->setText(*plotName);
     xBegin = _xBegin;
     xEnd = _xEnd;
+    yBegin = _yBegin;
+    yEnd = _yEnd;
     ui->widget->xAxis->setRange(xBegin, xEnd);
     ui->widget->yAxis->setRange(_yBegin, _yEnd);
 
@@ -40,11 +45,18 @@ initButtons();
 menu = new QMenu(this);
 QAction *menuClearGrapf = new QAction(tr("Очистить"));
 QAction *menuSeveGrapfToJpg = new QAction(tr("Сохранить как картинку"));
+QAction *menuZoomPlus = new QAction(tr("Увеличить"));
+QAction *menuZoomMinus = new QAction(tr("Уменьшить"));
+
 menu->addAction(menuClearGrapf);
 menu->addAction(menuSeveGrapfToJpg);
+menu->addAction(menuZoomPlus);
+menu->addAction(menuZoomMinus);
 //menuSeveGrapfToJpg->setEnabled(false);
 connect(menuClearGrapf, &QAction::triggered, this, &Plot::clearGrapf);
 connect(menuSeveGrapfToJpg, &QAction::triggered, this, &Plot::saveToJpg);
+connect(menuZoomPlus, &QAction::triggered, this, &Plot::zoomPlus);
+connect(menuZoomMinus, &QAction::triggered, this, &Plot::zoomMinus);
 }
 
 void Plot::mousePressEvent (QMouseEvent *event){
@@ -104,7 +116,7 @@ void Plot::plotTestInit(){
 void Plot::printTestGraph(double ydata)
 {
     if(xPos == ((int)xEnd-2)){
-        xEnd = xEnd +1;
+        xEnd = xEnd +5;
         ui->widget->xAxis->setRange(xBegin, xEnd);
     }
 //    ui->widget->addGraph();
@@ -120,14 +132,42 @@ void Plot::printTestGraph(double ydata)
 */
 void Plot::printGraph(double workTemp, double data)
 {
-    if(xPos == ((int)xEnd-2)){
+    qDebug() << tr("xPos %1, xEnd %2").arg(xPos).arg(xEnd);
+    if(xPos >= ((int)xEnd-2)){
         xEnd = xEnd +1;
         ui->widget->xAxis->setRange(xBegin, xEnd);
+        ui->widget->replot();
     }
+
+    /*
+    minY = std::min({workTemp, data, minY - 3});
+    maxY = std::max({workTemp, data, maxY + 1});
+    ui->widget->yAxis->setRange(minY, maxY);
+*/
+    if(data < workTemp && data < minY){
+        minY = data;
+
+        ui->widget->yAxis->setRange(minY -3, maxY+1);
+    }
+    if(workTemp < data && workTemp < minY){
+        minY = workTemp;
+        ui->widget->yAxis->setRange(minY -3, maxY+1);
+    }
+
+    if(data > workTemp && data > maxY){
+        maxY = data;
+        ui->widget->yAxis->setRange(minY -3, maxY+1);
+    }
+    if(workTemp > data && workTemp > maxY){
+        maxY = workTemp;
+        ui->widget->yAxis->setRange(minY -3, maxY+1);
+    }
+
     ui->widget->graph(0)->addData(xPos,data);
     ui->widget->graph(1)->addData(xPos,workTemp);
     ui->widget->replot();
     xPos++;
+
 }
 
 
@@ -145,6 +185,7 @@ void Plot::clearGrapf(){
     ui->widget->graph(0)->data().data()->clear();
     ui->widget->graph(1)->data().data()->clear();
     this->xPos = 0;//Устанавливаем в начало
+    this->xEnd = 10;
     ui->widget->xAxis->setRange(xBegin, xEndDefault);//Восстанавливаем размер графика
     ui->widget->replot();
 
@@ -184,4 +225,15 @@ void Plot::saveToJpg(){
          ui->widget->saveJpg(pathFileToSave);
      }
 
+}
+
+/**/
+void Plot::zoomPlus(){
+    ui->widget->yAxis->setRange(yBegin, yEnd -=yEnd/2);
+    ui->widget->replot();
+}
+
+void Plot::zoomMinus(){
+    ui->widget->yAxis->setRange(yBegin, yEnd +=yEnd/2);
+    ui->widget->replot();
 }

@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Настроим графики для отображения
     QString name = "AI1";
-    plotAI1 = new Plot(&name,1,50,-5,80);
+    plotAI1 = new Plot(&name,1,10,-5,80);
     plotAI1->plotTestInit();
     name.clear();
     name.append("AI2");
@@ -170,16 +170,18 @@ void MainWindow::parseTemp(QByteArray data){
     qDebug() <<str.split(' ');
     QList<QString> lst = str.split(' ');
 
+    //if(QString::compare(lst.at(0), "\n", Qt::CaseInsensitive))
+
     //Если пришла нетемпература, просто выходим
-    if(QString::compare(lst.at(0), "Temp", Qt::CaseInsensitive) != 0){
+    if(QString::compare(lst.at(0), "Temp", Qt::CaseInsensitive) == 0){
         printGraph(lst);
         return;
     }
 
-    if(QString::compare(lst.at(0), "Status", Qt::CaseInsensitive) != 0){
-        printGraph(lst);
-        return;
-    }
+//    if(QString::compare(lst.at(0), "Status", Qt::CaseInsensitive) == 0){
+//        printGraph(lst);
+//        return;
+//    }
 
 }
 
@@ -230,6 +232,7 @@ deviceStatus.currentTemperature_UI1 //Текущая измеренная тем
 deviceStatus.currentTemperature_SPI //Текущая измеренная температура на датчике подключенном к SPI
 */
 void MainWindow::printGraph(QList<QString> lst){
+    qDebug() << "printGraph";
     double workTemp = lst.at(WORK_TEMPERATURE).toDouble();
     double ai1 = lst.at(AI1).toDouble();
     double ai2 = lst.at(AI2).toDouble();
@@ -255,41 +258,32 @@ void MainWindow::clearAllGrapf(){
     plotUI1->clearGrapf();
 }
 
+/**/
 void MainWindow::on_pushButton_loadAll_clicked()
 {
-    //pathFile - это строка
-    //file - это QFile
-    QString filter = tr("Temperature grapf (*.grapf):;;All file (*.*)");
-    //   QString filter = tr("Temperature grapf (*.grapf)");
-    pathFile->clear();
-    pathFile->append(QFileDialog::getOpenFileName(this, "Open a file", "", filter));
+    QString filter = tr("Temperature grapf (*.grapf);;All files (*.*)");
+    QString path = QFileDialog::getOpenFileName(this, tr("Open a file"), "", filter);
 
-    file->setFileName(*pathFile);
-    if(file->isOpen())
-        qDebug() << tr("ERROR: File already open");
-
-    if(!file->open(QIODevice::ReadWrite)){
-        qDebug() << tr("ERROR: File %1 not open").arg(file->fileName());
+    if (path.isEmpty()) {
+        qDebug() << "ERROR: File not selected";
         return;
     }
 
-    quint64 numOfStr = 0;
-    QTextStream in(file);
-    QByteArray qbArray;
-    while (!in.atEnd())
-    {
-        //QString line =
-        //line = in.readLine();
-        numOfStr++;
-        qbArray.append(in.readLine());
-        parseTemp(qbArray);
-        qbArray.clear();
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "ERROR: Unable to open file" << file.fileName();
+        return;
     }
 
-    qDebug() << tr("Прочитано %1 строк").arg(numOfStr);
-    file->close();
+    QTextStream in(&file);
+    quint64 numOfStr = 0;
+    while (!in.atEnd()) {
+        QByteArray qbArray = in.readLine().toUtf8();
+        parseTemp(qbArray);
+        numOfStr++;
+    }
 
-
+    qDebug() << "Прочитано" << numOfStr << "строк";
 }
 
 /**
